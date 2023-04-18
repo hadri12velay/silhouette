@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { firestore } from "../firebase";
-import { addDoc, getDocs, collection } from "@firebase/firestore";
+import {
+  onSnapshot,
+  addDoc,
+  collection,
+  query,
+  orderBy,
+} from "@firebase/firestore";
 
 export default function Home() {
   // Constants
   const messageRef = useRef();
+  const titleRef = useRef();
   const ref = collection(firestore, "messages");
 
   // UseStates
@@ -13,31 +20,40 @@ export default function Home() {
 
   // Handlers
   const handleSave = async (e) => {
-    if (messageRef.current.value === "") return;
     e.preventDefault();
-    console.log(messageRef.current.value);
+    if (messageRef.current.value === "" || titleRef.current.value === "")
+      return;
     let data = {
+      title: titleRef.current.value,
       content: messageRef.current.value,
+      timestamp: new Date(),
     };
     try {
       addDoc(ref, data);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
-    getMessages(false);
+    clearInputs();
   };
 
-  async function getMessages(changeLoading = true) {
-    if (changeLoading) setLoading(true);
-    const querySnapshot = await getDocs(ref);
-    querySnapshot.forEach((doc) => {
-      const items = [];
-      querySnapshot.forEach((doc) => {
-        items.push(doc.data());
+  function clearInputs() {
+    return;
+  }
+
+  function getMessages() {
+    setLoading(true);
+    try {
+      onSnapshot(query(ref, orderBy("timestamp", "desc")), (snapshot) => {
+        const newMessages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMessages(newMessages);
+        setLoading(false);
       });
-      setMessages(items);
-      setLoading(false);
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -46,19 +62,20 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return <h1>Loading ...</h1>;
+    console.log("loading...");
   }
 
   return (
     <div>
       <form onSubmit={handleSave}>
-        <label>Enter Message: </label>
-        <input type="text" ref={messageRef} placeholder="Your message" />
-        <button type="submit">Save</button>
+        <input type="text" ref={titleRef} placeholder="title" />
+        <input type="text" ref={messageRef} placeholder="message" />
+        <button type="submit">save</button>
       </form>
       <div className="messages">
         {messages.map((message) => (
           <div className="message" key={message.id}>
+            <h3>{message.title}</h3>
             <p>{message.content}</p>
           </div>
         ))}
