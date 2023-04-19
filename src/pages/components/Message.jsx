@@ -9,6 +9,10 @@ export default function Message({ messages }) {
       /\*\*(.*?)\*\*/g,
       '<span class="special">$1</span>'
     );
+    newText = newText.replace(
+      /\@\@(.*?)\@\@/g,
+      '<span class="special2">$1</span>'
+    );
     console.log(text);
     return newText;
   }
@@ -17,12 +21,19 @@ export default function Message({ messages }) {
     <div className="messages">
       {messages.map((message) => (
         <div className="message" key={message.id}>
-          <h3 className="title">{message.title}</h3>
-          <h3 className="user">{message.user ? "- " + message.user : ""}</h3>
-          <p
-            className="body"
-            dangerouslySetInnerHTML={{ __html: interpretText(message.content) }}
-          />
+          <div className="title">
+            <h3>{message.title}</h3>
+          </div>
+          <div className="user">
+            <h3>{message.user ? "- " + message.user : ""}</h3>
+          </div>
+          <div className="body">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: interpretText(message.content),
+              }}
+            />
+          </div>
         </div>
       ))}
     </div>
