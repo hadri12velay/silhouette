@@ -10,7 +10,6 @@ export default function Message({ messages }) {
       '<span class="special">$1</span>'
     );
     newText = newText.replace(/@@(.*?)@@/g, '<span class="special2">$1</span>');
-    console.log(text);
     return newText;
   }
 

@@ -42,7 +42,8 @@ export default function Home() {
   };
 
   function clearInputs(e) {
-    return;
+    e.target.querySelector("input.title").value = "";
+    e.target.querySelector("textarea.body").value = "";
   }
 
   function getMessages() {
