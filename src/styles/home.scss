@@ -17,26 +17,39 @@ body {
       padding: 1rem;
       border: 1px solid $border-color;
       border-radius: $border-radius;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas: "title user" "message message" "submit submit";
+      row-gap: 1rem;
+      column-gap: 1rem;
       input,
       textarea {
         padding: 0 0.5rem;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
       }
-      textarea {
+      input.title {
+        grid-area: title;
+      }
+      input.user {
+        grid-area: user;
+      }
+      textarea.body {
+        grid-area: message;
         resize: none;
         height: 7rem;
       }
-    }
-    .messages {
-      padding: 0 1rem;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      .message {
-        padding: 1rem 0rem;
-        &:not(:last-child) {
-          border-bottom: 1px solid $border-color;
+      button.submit {
+        grid-area: submit;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        background: $button-color;
+        &:hover {
+          background: darken($button-color, 2);
+        }
+        &:active {
+          background: darken($button-color, 5);
         }
       }
     }

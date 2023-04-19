@@ -8,10 +8,14 @@ import {
   orderBy,
 } from "@firebase/firestore";
 
+// Components
+import Message from "./components/Message";
+
 export default function Home() {
   // Constants
   const messageRef = useRef();
   const titleRef = useRef();
+  const userRef = useRef();
   const ref = collection(firestore, "messages");
 
   // UseStates
@@ -25,6 +29,7 @@ export default function Home() {
       return;
     let data = {
       title: titleRef.current.value,
+      user: userRef.current.value,
       content: messageRef.current.value,
       timestamp: new Date(),
     };
@@ -73,26 +78,30 @@ export default function Home() {
           className="title"
           type="text"
           ref={titleRef}
-          placeholder="title"
-          maxlength="50"
+          placeholder="title *"
+          maxLength="50"
+          required
+        />
+        <input
+          className="user"
+          type="text"
+          ref={userRef}
+          placeholder="name (optional)"
+          maxLength="10"
         />
         <textarea
           className="body"
           type="text"
           ref={messageRef}
-          placeholder="message"
-          maxlength="300"
+          placeholder="message *"
+          maxLength="300"
+          required
         />
-        <button type="submit">save</button>
+        <button className="submit" type="submit">
+          send
+        </button>
       </form>
-      <div className="messages">
-        {messages.map((message) => (
-          <div className="message" key={message.id}>
-            <h3 className="title">{message.title}</h3>
-            <p className="body">{message.content}</p>
-          </div>
-        ))}
-      </div>
+      <Message messages={messages} />
     </div>
   );
 }
