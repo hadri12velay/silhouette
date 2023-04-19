@@ -33,17 +33,18 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-    clearInputs();
+    clearInputs(e);
   };
 
-  function clearInputs() {
+  function clearInputs(e) {
     return;
   }
 
   function getMessages() {
     setLoading(true);
     try {
-      onSnapshot(query(ref, orderBy("timestamp", "desc")), (snapshot) => {
+      const q = query(ref, orderBy("timestamp", "desc"));
+      onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -66,17 +67,29 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSave}>
-        <input type="text" ref={titleRef} placeholder="title" />
-        <input type="text" ref={messageRef} placeholder="message" />
+    <div className="main">
+      <form className="create" onSubmit={handleSave}>
+        <input
+          className="title"
+          type="text"
+          ref={titleRef}
+          placeholder="title"
+          maxlength="50"
+        />
+        <textarea
+          className="body"
+          type="text"
+          ref={messageRef}
+          placeholder="message"
+          maxlength="300"
+        />
         <button type="submit">save</button>
       </form>
       <div className="messages">
         {messages.map((message) => (
           <div className="message" key={message.id}>
-            <h3>{message.title}</h3>
-            <p>{message.content}</p>
+            <h3 className="title">{message.title}</h3>
+            <p className="body">{message.content}</p>
           </div>
         ))}
       </div>
