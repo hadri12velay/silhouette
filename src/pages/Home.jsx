@@ -8,7 +8,7 @@ import Form from "./components/Form";
 
 export default function Home() {
   // Constants
-  const ref = collection(firestore, "messages");
+  const db = collection(firestore, "messages");
 
   // UseStates
   const [messages, setMessages] = useState([]);
@@ -17,7 +17,7 @@ export default function Home() {
   function getMessages() {
     setLoading(true);
     try {
-      const q = query(ref, orderBy("timestamp", "desc"));
+      const q = query(db, orderBy("timestamp", "desc"));
       onSnapshot(q, (snapshot) => {
         const newMessages = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="main">
-      <Form ref={ref} />
+      <Form db={db} />
       <Message messages={messages} />
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { addDoc } from "@firebase/firestore";
 
-export default function Form({ ref }) {
+export default function Form({ db }) {
   const messageRef = useRef();
   const titleRef = useRef();
   const userRef = useRef();
@@ -17,7 +17,7 @@ export default function Form({ ref }) {
       timestamp: new Date(),
     };
     try {
-      addDoc(ref, data);
+      addDoc(db, data);
     } catch (error) {
       console.log(error);
     }
