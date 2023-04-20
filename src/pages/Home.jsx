@@ -1,50 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import {
-  onSnapshot,
-  addDoc,
-  collection,
-  query,
-  orderBy,
-} from "@firebase/firestore";
+import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
 
 // Components
 import Message from "./components/Message";
+import Form from "./components/Form";
 
 export default function Home() {
   // Constants
-  const messageRef = useRef();
-  const titleRef = useRef();
-  const userRef = useRef();
   const ref = collection(firestore, "messages");
 
   // UseStates
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState([false]);
-
-  // Handlers
-  const handleSave = async (e) => {
-    e.preventDefault();
-    if (messageRef.current.value === "" || titleRef.current.value === "")
-      return;
-    let data = {
-      title: titleRef.current.value,
-      user: userRef.current.value,
-      content: messageRef.current.value,
-      timestamp: new Date(),
-    };
-    try {
-      addDoc(ref, data);
-    } catch (error) {
-      console.log(error);
-    }
-    clearInputs(e);
-  };
-
-  function clearInputs(e) {
-    e.target.querySelector("input.title").value = "";
-    e.target.querySelector("textarea.body").value = "";
-  }
 
   function getMessages() {
     setLoading(true);
@@ -74,34 +42,7 @@ export default function Home() {
 
   return (
     <div className="main">
-      <form className="create" onSubmit={handleSave}>
-        <input
-          className="title"
-          type="text"
-          ref={titleRef}
-          placeholder="title *"
-          maxLength="50"
-          required
-        />
-        <input
-          className="user"
-          type="text"
-          ref={userRef}
-          placeholder="name (optional)"
-          maxLength="10"
-        />
-        <textarea
-          className="body"
-          type="text"
-          ref={messageRef}
-          placeholder="message *"
-          maxLength="300"
-          required
-        />
-        <button className="submit" type="submit">
-          send
-        </button>
-      </form>
+      <Form ref={ref} />
       <Message messages={messages} />
     </div>
   );
