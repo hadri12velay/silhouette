@@ -32,14 +32,36 @@
       grid-area: message;
     }
     p {
-      .special {
+      .red {
         color: rgb(241, 0, 0);
         font-weight: bold;
       }
-      .special2 {
-        color: rgb(0, 133, 241);
+      .blue {
+        color: rgb(12, 131, 228);
         font-weight: bold;
       }
+      .rainbow {
+        font-weight: bold;
+        background-image: linear-gradient(
+          to right,
+          rgb(206, 0, 0),
+          rgb(207, 135, 0),
+          rgb(221, 207, 11),
+          rgb(0, 139, 0),
+          rgb(0, 0, 197),
+          indigo,
+          rgb(201, 88, 201)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: move 6s linear infinite;
+      }
     }
+  }
+}
+
+@keyframes move {
+  to {
+    background-position: 100vh;
   }
 }

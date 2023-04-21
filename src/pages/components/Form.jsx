@@ -24,6 +24,12 @@ export default function Form({ db }) {
     clearInputs(e);
   };
 
+  const handleTips = () => {
+    alert(
+      "\nTips:\n\n**text**:   red text\n@@text@@:   blue text\n__text__:   rainbow text"
+    );
+  };
+
   function clearInputs(e) {
     e.target.querySelector("input.title").value = "";
     e.target.querySelector("textarea.body").value = "";
@@ -54,6 +60,9 @@ export default function Form({ db }) {
         maxLength="300"
         required
       />
+      <button className="tips" type="button" onClick={handleTips}>
+        ?
+      </button>
       <button className="submit" type="submit">
         send
       </button>

@@ -5,11 +5,9 @@ export default function Message({ messages }) {
   // functions
   function interpretText(text) {
     let newText = DOMPurify.sanitize(text);
-    newText = newText.replace(
-      /\*\*(.*?)\*\*/g,
-      '<span class="special">$1</span>'
-    );
-    newText = newText.replace(/@@(.*?)@@/g, '<span class="special2">$1</span>');
+    newText = newText.replace(/\*\*(.*?)\*\*/g, '<span class="red">$1</span>');
+    newText = newText.replace(/@@(.*?)@@/g, '<span class="blue">$1</span>');
+    newText = newText.replace(/__(.*?)__/g, '<span class="rainbow">$1</span>');
     return newText;
   }
 
