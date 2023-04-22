@@ -12,7 +12,7 @@ export default function Home() {
 
   // UseStates
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState([false]);
+  const [loading, setLoading] = useState(false);
 
   function getMessages() {
     setLoading(true);
@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="main">
       <Form db={db} />
-      <Message messages={messages} />
+      <Message messages={messages} loading={loading} />
     </div>
   );
 }

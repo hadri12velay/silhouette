@@ -3,6 +3,14 @@
   border: 1px solid $border-color;
   border-radius: $border-radius;
   max-width: 100%;
+  &.loading {
+    h2 {
+      font-weight: normal;
+      margin: 0 auto;
+      text-align: center;
+      padding: 2rem;
+    }
+  }
   .message {
     max-width: 100%;
     overflow: hidden;

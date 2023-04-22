@@ -1,7 +1,7 @@
 import React from "react";
 import DOMPurify from "dompurify";
 
-export default function Message({ messages }) {
+export default function Message({ messages, loading }) {
   // functions
   function interpretText(text) {
     let newText = DOMPurify.sanitize(text);
@@ -9,6 +9,14 @@ export default function Message({ messages }) {
     newText = newText.replace(/@@(.*?)@@/g, '<span class="blue">$1</span>');
     newText = newText.replace(/__(.*?)__/g, '<span class="rainbow">$1</span>');
     return newText;
+  }
+
+  if (loading) {
+    return (
+      <div className="messages loading">
+        <h2>loading...</h2>
+      </div>
+    );
   }
 
   return (
