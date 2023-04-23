@@ -15,6 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   function getMessages() {
+    console.log("getting messages");
     setLoading(true);
     try {
       const q = query(db, orderBy("timestamp", "desc"));
